@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PDF AI 设置</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>⚙️ PDF AI 设置</h1>
+        <p class="subtitle">配置你要在右键菜单里看到的 AI 智能体。所有 key 仅保存在本地（chrome.storage.sync）。</p>
+      </header>
+
+      <section class="card">
+        <div class="card-header">
+          <h2>AI 智能体</h2>
+          <div class="card-actions">
+            <span class="hint-inline">支持 MiniMax / DeepSeek</span>
+            <button id="reset-default" class="ghost-btn" title="重置为内置默认配置">恢复默认</button>
+          </div>
+        </div>
+        <div id="agent-list" class="agent-list"></div>
+        <div class="guide-box">
+          <h3>MiniMax 配置教程</h3>
+          <ol>
+            <li>点击“申请 MiniMax API Key”，进入 MiniMax 官方控制台。</li>
+            <li>登录后进入“接口密钥”，创建并复制 API Key。</li>
+            <li>展开 MiniMax 配置项，把 Key 粘贴到 API Key 输入框，离开输入框后自动保存。</li>
+            <li>回到 PDF 页面框选文字，即可使用 MiniMax-M3 解释。</li>
+          </ol>
+          <button id="open-minimax" class="primary-btn">申请 MiniMax API Key</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-header">
+          <h2>默认智能体</h2>
+        </div>
+        <select id="default-agent" class="big-select"></select>
+        <p class="hint">右键菜单默认选中的 agent。快捷键 <kbd>Ctrl/Cmd+Shift+J</kbd> 也会用它。</p>
+      </section>
+
+      <section class="card">
+        <div class="card-header">
+          <h2>系统 Prompt 模板</h2>
+          <button id="reset-prompt" class="ghost-btn">恢复默认模板</button>
+        </div>
+        <textarea id="custom-prompt" rows="9"></textarea>
+        <p class="hint">
+          用 <code>{context}</code> 表示引用段落，<code>{question}</code> 表示你的问题。
+        </p>
+      </section>
+
+      <section class="card">
+        <div class="card-header">
+          <h2>使用说明</h2>
+        </div>
+        <ol class="usage">
+          <li>填好上面至少一个 agent 的 API Key。</li>
+          <li>打开任意 PDF（浏览器原生预览、PDF.js 嵌入网页都行）。</li>
+          <li>用鼠标框选一段文字 → 右键 → <b>PDF AI 提问</b> → 选 AI 智能体。</li>
+          <li>侧边栏自动打开，显示引用段落 + 输入框，输入问题回车即可。</li>
+          <li>或按 <kbd>Ctrl/Cmd+Shift+Y</kbd> 直接打开侧边栏。</li>
+        </ol>
+      </section>
+
+      <footer class="page-footer">
+        <span id="save-status" class="save-status"></span>
+      </footer>
+    </div>
+
+    <script type="module" src="options.js"></script>
+  </body>
+</html>

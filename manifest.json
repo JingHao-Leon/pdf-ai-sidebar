@@ -1,0 +1,75 @@
+{
+  "manifest_version": 3,
+  "name": "PDF AI Sidebar",
+  "version": "0.4.0",
+  "description": "在网页浏览 PDF 时框选段落对接各种 AI 智能体提问。",
+  "minimum_chrome_version": "116",
+
+  "permissions": [
+    "contextMenus",
+    "storage",
+    "activeTab",
+    "scripting",
+    "tabs",
+    "sidePanel"
+  ],
+
+  "host_permissions": [
+    "<all_urls>",
+    "file://*/*"
+  ],
+
+  "background": {
+    "service_worker": "src/background/background.js",
+    "type": "module"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["src/content/content.js"],
+      "css": ["src/content/content.css"],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ],
+
+  "action": {
+    "default_title": "PDF AI Sidebar — 点击打开侧边栏"
+  },
+
+  "side_panel": {
+    "default_path": "src/sidepanel/sidepanel.html"
+  },
+
+  "options_ui": {
+    "page": "src/options/options.html",
+    "open_in_tab": true
+  },
+
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "src/vendor/pdfjs/pdf.min.mjs",
+        "src/vendor/pdfjs/pdf.worker.min.mjs"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ],
+
+  "commands": {
+    "send-selection": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+J",
+        "mac": "Command+Shift+J"
+      },
+      "description": "把当前选区发送到 AI 提问"
+    }
+  },
+
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  }
+}

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PDF AI Sidebar</title>
+    <link rel="stylesheet" href="sidepanel.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <span class="logo">📄</span>
+          <span class="title">PDF AI</span>
+          <span class="badge" title="工作模式：基于全文上下文解释选中段落">全文上下文</span>
+        </div>
+        <div class="controls">
+          <select id="agent-select" title="切换 AI 智能体"></select>
+          <button id="settings-btn" title="设置" aria-label="设置">⚙</button>
+        </div>
+      </header>
+
+      <section class="setup-banner" id="setup-banner" hidden>
+        <div class="setup-title">首次使用，需要配置 MiniMax API Key</div>
+        <div class="setup-steps">
+          1. 点击“申请 API Key”并登录 MiniMax；2. 创建并复制 Key；3. 回到设置页粘贴保存。
+        </div>
+        <div class="setup-actions">
+          <button id="open-minimax-btn" class="primary-btn">申请 MiniMax API Key</button>
+          <button id="open-settings-btn" class="ghost-btn">去设置粘贴 Key</button>
+        </div>
+        <div class="setup-trial-note">试用服务暂未接入，当前使用你自己的 MiniMax API 额度。</div>
+      </section>
+
+      <section class="web-guide-card" id="web-guide-card" hidden>
+        <div class="web-guide-title">🧭 英文网页操作教程</div>
+        <div class="web-guide-subtitle">输入“如何操作这个页面”，AI 会逐步高亮按钮。每一步由你确认。</div>
+        <textarea id="guide-task" rows="2" placeholder="例如：How do I create a new repository on GitHub?"></textarea>
+        <button id="start-guide-btn" class="primary-btn">生成网页教程</button>
+        <div id="guide-progress" class="guide-progress" hidden></div>
+        <button id="guide-next-btn" class="ghost-btn" hidden>下一步</button>
+      </section>
+
+      <section class="context-box" id="context-box">
+        <div class="context-label">
+          <span>选中段落</span>
+          <span class="context-meta" id="context-meta"></span>
+          <button id="refresh-selection" class="ghost-btn" title="重新从页面抓取选区">↻ 刷新</button>
+        </div>
+        <div class="context-text" id="context-text">
+          <div class="placeholder">
+            还没抓到选中的段落。
+            <ol>
+              <li>打开一个 PDF（浏览器原生预览或 PDF.js 嵌入网页都可以）</li>
+              <li>用鼠标框选一行/一段</li>
+              <li>右键 → <b>AI 解释整篇</b> → 选 AI 智能体</li>
+              <li>侧边栏打开后，点下方 <b>📁 选择 PDF 文件</b> 让 AI 拿到整篇内容</li>
+            </ol>
+          </div>
+        </div>
+        <div class="full-doc-status empty" id="full-doc-status">
+          <span class="dot"></span>等待 PDF 全文加载…
+        </div>
+        <div class="context-actions">
+          <label class="primary-btn" id="load-pdf-btn" for="pdf-file-input">
+            📁 选择 PDF 文件
+          </label>
+          <input type="file" id="pdf-file-input" accept="application/pdf,.pdf" hidden />
+          <span class="hint-inline" id="pdf-file-name"></span>
+        </div>
+        <p class="privacy-note">
+          隐私提示：发送问题时，选中段落和你手动选择的 PDF 全文会发送到当前选定的 AI 服务商（MiniMax 或 DeepSeek）处理；插件不提供第三方服务器，也不收集遥测数据。
+        </p>
+      </section>
+
+      <main class="chat" id="chat">
+        <div class="empty" id="chat-empty">
+          <div class="empty-emoji">💬</div>
+          <div class="empty-text">选好段落后，在下方输入你的问题（不填也能发，AI 会自动解释选中段落在全文中的意思）。</div>
+        </div>
+      </main>
+
+      <footer class="composer">
+        <div class="composer-row">
+          <textarea
+            id="user-input"
+            placeholder="可选：基于全文上下文，问我任何问题（不填也能发）..."
+            rows="3"
+          ></textarea>
+        </div>
+        <div class="composer-actions">
+          <button id="clear-btn" class="ghost-btn" title="清空对话">清空</button>
+          <span class="hint" id="hint">Enter 发送 · Shift+Enter 换行</span>
+          <button id="send-btn" class="primary-btn">发送</button>
+        </div>
+      </footer>
+    </div>
+
+    <script type="module" src="sidepanel.js"></script>
+  </body>
+</html>
